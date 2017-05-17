@@ -1,5 +1,11 @@
 # marc-pipeline
-MARC pipeline for quality assessment preparation.
+MARC pipeline for quality assessment preparation. It transforms binary MARC files to MARCXML (with yaz-marcdump), 
+then MARCXML to JSON (with Catmandu) and finally to another special JSON. The final JSON contains one record 
+per line -- this is the way Apache Spark ingest files. Other differences
+
+* the order of the components is the same in every records (in Librecat output the order of components is varying)
+* the `datafield`'s `subfield` component is always an array of object (in Librecat output it is an object if there is only
+one subfield)
 
 ## prerequisited softwares
 
@@ -8,6 +14,7 @@ MARC pipeline for quality assessment preparation.
 [usage examples](http://www.j-gorman.com/blog/2012/4/22/yaz-marcdump-simple-but-powerful-marc-batch-tool.html))
 * uconv ([manual](https://linux.die.net/man/1/uconv))
 
+Catmandu requires a special installation, the other two tools are available as standard *nix tools.
 
 ## processing single files
 
@@ -23,7 +30,7 @@ and [Combining and precomposed characters](https://en.wikipedia.org/wiki/Unicode
 
 1. `toXml.sh` - convert binary MARC files in `marc` directory to XML with `yaz-marcdump`, then split 
 the files with `splitXml.php`. Each new file contains maximum 10.000 records.
-1. `toJson.sh` - convert XML files in `splitted` directory with Catmandu. Moves converted files to `converted` and .json to `raw`
+1. `toJson.sh` - convert XML files in `splitted` directory with Catmandu. Moves converted files to `converted` and .json to `json/raw`
 1. `jsonToFormatted.sh` - convert .json files in `json/raw` into a more convenient JSON format. Saves the new files into 
 `json/formatted` directory, moves the source file into `json/processed`
 

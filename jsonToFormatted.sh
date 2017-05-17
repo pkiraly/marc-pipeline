@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FILES=json/raw/gvk*.json
+FILES=json/raw/*.json
 
 for json in $FILES
 do
