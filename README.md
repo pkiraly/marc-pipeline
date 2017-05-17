@@ -20,7 +20,7 @@ the files with `splitXml.php`. Each new file contains maximum 10.000 records.
 1. `jsonToFormatted.sh` - convert .json files in `json/raw` into a more convenient JSON format. Saves the new files into 
 `json/formatted` directory, moves the source file into `json/processed`
 
-## running the full process with `cron` scheduler
+## running the XML to JSON process with `cron` scheduler
 
 Edit crontab with the 
 
@@ -33,3 +33,21 @@ command and add the following line:
 ```
 */1 * * * * cd /to/working/directory && php toJsonLauncher.php >> launch-report.log
 ```
+
+This script runs the `one-file-to-json.sh` script on each files listed in the `to-json-setlist.txt` file.
+
+## running the JSON formatting process with `cron` scheduler
+
+Edit crontab with the 
+
+```
+crontab -e
+```
+
+command and add the following line:
+
+```
+*/1 * * * * cd /to/working/directory && php toFormattedLauncher.php >> launch-report.log
+```
+
+This script runs the `one-json-to-formatted.sh` script on each files listed in the `to-formatted-setlist.txt` file.
