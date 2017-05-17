@@ -1,5 +1,12 @@
 # marc-pipeline
-MARC pipeline for quality assessment preparation
+MARC pipeline for quality assessment preparation.
+
+## prerequisites
+
+* catmandu
+* yaz-marcdump
+*
+
 
 processing single files
 
@@ -8,5 +15,7 @@ processing single files
 
 processing multiple files
 
+1. `toXml.sh` - convert binary MARC files in `marc` directory to XML with `yaz-marcdump`, then split 
+the files with `splitXml.php`. Each new file contains maximum 10.000 records.
 1. `toJson.sh` - convert XML files in `splitted` directory with Catmandu. Moves converted files to `converted` and .json to `raw`
 
