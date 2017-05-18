@@ -10,8 +10,8 @@ $inputFile = $argv[1];
 $fh = fopen($inputFile, 'r');
 
 $recNum = 0;
-printf("generateFileName(%s, %s)\n", $inputFile, $recNum);
 $outputFileName = generateFileName($inputFile, $recNum);
+printf("write to %s\n", $outputFileName);
 $output = fopen($outputFileName, 'w');
 writeHeader();
 
@@ -31,8 +31,8 @@ if ($fh) {
         writeFooter();
         fclose($output);
         rename($outputFileName, 'splitted/' . $outputFileName);
-        printf("generateFileName(%s, %s)\n", $inputFile, $recNum);
         $outputFileName = generateFileName($inputFile, $recNum);
+        printf("write to %s\n", $outputFileName);
         $output = fopen($outputFileName, 'w');
         writeHeader();
         $recNumInCurrentFile = 0;
@@ -46,13 +46,13 @@ if (file_exists($outputFileName)) {
   if ($recNumInCurrentFile > 0) {
     rename($outputFileName, '../splitted/' . $outputFileName);
   } else {
+    printf("delete file without record %s\n", $outputFileName);
     unlink($outputFileName);
   }
 }
 
 function generateFileName($inputFile, $recNum) {
   $fileName = sprintf('%s.%07d.xml', str_replace('.xml', '', preg_replace('/^marc\//', '', $inputFile)), $recNum);
-  print "print to: $fileName\n";
   return $fileName;
 }
 

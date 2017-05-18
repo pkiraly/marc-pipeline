@@ -31,11 +31,12 @@ Catmandu requires a special installation, the other two tools are available as s
 ## processing multiple files
 
 1. `marc-to-xml.sh` - convert binary MARC files in `marc` directory to XML with `yaz-marcdump`, then split 
-the files with `splitXml.php`. Each new file contains maximum 10.000 records.
+the files with `split-xml.php`. Each new file contains maximum 10.000 records.
 1. `to-utf8.sh` - convert each XML files in a directory to normal UTF-8 file with the `uconv` tool. The MARC to XML converters
 do not deal with the decomposed character. This step is needed if the accented charcters in XML remain decomposed 
 (such as an a + ¨ instead of ä). See [Unicode normalization](https://en.wikipedia.org/wiki/Unicode_equivalence#Normalization) 
 and [Combining and precomposed characters](https://en.wikipedia.org/wiki/Unicode_equivalence#Combining_and_precomposed_characters).
+1. `split-xml.sh` - splits MARCXML files in `marc` directory and place the new files into `splitted`. The script makes use of with `split-xml.php`. Each new file contains 10.000 records the maximum.
 1. `xml-to-json.sh` - convert XML files in `splitted` directory with Catmandu. Moves converted files to `converted` and .json to `json/raw`
 1. `format-json.sh` - convert .json files in `json/raw` into a more convenient JSON format. Saves the new files into 
 `json/formatted` directory, moves the source file into `json/processed`
