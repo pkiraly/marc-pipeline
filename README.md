@@ -1,7 +1,8 @@
 # marc-pipeline
-MARC pipeline for quality assessment preparation. It transforms binary MARC files to MARCXML (with yaz-marcdump), 
-then MARCXML to JSON (with Catmandu) and finally to another special JSON. The final JSON contains one record 
-per line -- this is the way Apache Spark ingest files. Other differences
+MARC pipeline for quality assessment preparation. The purpose of this project to provide an automatic way to 
+convert MARC binary or MARCXML files to JSON files ready to be processed by Apache Spark.
+It transforms binary MARC files to MARCXML (with yaz-marcdump), then MARCXML to JSON (with Catmandu) 
+and finally reformat the JSON files. The final JSON contains one record  per line -- this is the way Apache Spark ingest files. Other differences between Catmandu produced JSON, and the JSON this project produces:
 
 * the order of the components is the same in every records (in Librecat output the order of components is varying)
 * the `datafield`'s `subfield` component is always an array of object (in Librecat output it is an object if there is only
@@ -28,10 +29,10 @@ and [Combining and precomposed characters](https://en.wikipedia.org/wiki/Unicode
 
 ## processing multiple files
 
-1. `toXml.sh` - convert binary MARC files in `marc` directory to XML with `yaz-marcdump`, then split 
+1. `marc-to-xml.sh` - convert binary MARC files in `marc` directory to XML with `yaz-marcdump`, then split 
 the files with `splitXml.php`. Each new file contains maximum 10.000 records.
-1. `toJson.sh` - convert XML files in `splitted` directory with Catmandu. Moves converted files to `converted` and .json to `json/raw`
-1. `jsonToFormatted.sh` - convert .json files in `json/raw` into a more convenient JSON format. Saves the new files into 
+1. `xml-to-json.sh` - convert XML files in `splitted` directory with Catmandu. Moves converted files to `converted` and .json to `json/raw`
+1. `format-json.sh` - convert .json files in `json/raw` into a more convenient JSON format. Saves the new files into 
 `json/formatted` directory, moves the source file into `json/processed`
 
 ## running the XML to JSON process with `cron` scheduler
