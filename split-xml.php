@@ -15,6 +15,7 @@ $outputFileName = generateFileName($inputFile, $recNum);
 $output = fopen($outputFileName, 'w');
 writeHeader();
 
+$recNumInCurrentFile = 0;
 if ($fh) {
   while (($line = fgets($fh)) !== false) {
     if (preg_match('/^(<\?xml|<\/?collection)/', $line)) {
@@ -22,6 +23,7 @@ if ($fh) {
     }
     if (preg_match('/<record/', $line)) {
       $recNum++;
+      $recNumInCurrentFile++;
     }
     fwrite($output, $line);
     if (preg_match('/<\/record/', $line)) {
@@ -33,16 +35,23 @@ if ($fh) {
         $outputFileName = generateFileName($inputFile, $recNum);
         $output = fopen($outputFileName, 'w');
         writeHeader();
+        $recNumInCurrentFile = 0;
       }
     }
   }
 }
 writeFooter();
 fclose($output);
-rename($outputFileName, '../splitted/' . $outputFileName);
+if (file_exists($outputFileName)) {
+  if ($recNumInCurrentFile > 0) {
+    rename($outputFileName, '../splitted/' . $outputFileName);
+  } else {
+    unlink($outputFileName);
+  }
+}
 
 function generateFileName($inputFile, $recNum) {
-  $fileName = sprintf('%s.%07d.xml', str_replace('.xml', '', $inputFile), $recNum);
+  $fileName = sprintf('%s.%07d.xml', str_replace('.xml', '', preg_replace('/^marc\//', '', $inputFile)), $recNum);
   print "print to: $fileName\n";
   return $fileName;
 }

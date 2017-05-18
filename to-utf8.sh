@@ -3,14 +3,15 @@
 echo '----'
 date +%Y-%m-%d:%H:%M:%S
 
-FILES=*.xml
+FILES=marc/*.xml
 COUNT=${#FILES[@]}
 
 for file in $FILES
 do
+  temp=$file.temp
   echo "Process $file..."
-  uconv -x any-nfc $file > temp.json
-  mv temp.json $file
+  uconv -x any-nfc $file > $temp
+  mv $temp $file
 done
 echo DONE
 
