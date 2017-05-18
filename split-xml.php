@@ -44,7 +44,7 @@ writeFooter();
 fclose($output);
 if (file_exists($outputFileName)) {
   if ($recNumInCurrentFile > 0) {
-    rename($outputFileName, '../splitted/' . $outputFileName);
+    rename($outputFileName, 'splitted/' . $outputFileName);
   } else {
     printf("delete file without record %s\n", $outputFileName);
     unlink($outputFileName);
