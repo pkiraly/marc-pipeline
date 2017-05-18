@@ -41,6 +41,15 @@ and [Combining and precomposed characters](https://en.wikipedia.org/wiki/Unicode
 1. `format-json.sh` - convert .json files in `json/raw` into a more convenient JSON format. Saves the new files into 
 `json/formatted` directory, moves the source file into `json/processed`
 
+## directories
+
+* `marc` - put here the original binary MARC or MARCXML files
+* `splitted` - the script puts the splitted XML files here temporary
+* `converted` - after JSON conversion the scripts moves here the splitted XML files
+* `json/raw` - the place of the Catmandu generated JSON files before format
+* `json/processes` - the final place of the Catmandu generated JSON files
+* `json/formatted` - the formatted JSON files. This is the end result of the process. If everything went correct, you can delete the content of the other directories.
+
 ## running the XML to JSON process with `cron` scheduler
 
 Edit crontab with the 
